@@ -91,22 +91,33 @@ async function addExpense(expenseData) {
     }
 }
 
-// Hàm xóa chi phí
+// HÀM XÓA CHI PHÍ - ĐÃ SỬA
 async function deleteExpense(id) {
     if (!confirm('Bạn có chắc muốn xóa chi phí này?')) return;
     
     try {
-        const response = await fetch(`${API_BASE}/api/expenses/${id}`, {
-            method: 'DELETE'
+        console.log('Deleting expense id:', id);
+        
+        // Sửa URL để gửi id qua query parameter
+        const response = await fetch(`${API_BASE}/api/expenses?id=${encodeURIComponent(id)}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
         });
         
-        if (!response.ok) throw new Error('Không thể xóa chi phí');
+        const result = await response.json();
+        console.log('Delete API response:', result);
+        
+        if (!response.ok) {
+            throw new Error(result.error || 'Không thể xóa chi phí');
+        }
         
         showNotification('Đã xóa chi phí thành công!', 'success');
         await fetchExpenses();
     } catch (error) {
         console.error('Lỗi khi xóa chi phí:', error);
-        showNotification('Không thể xóa chi phí', 'error');
+        showNotification(error.message || 'Không thể xóa chi phí', 'error');
     }
 }
 
