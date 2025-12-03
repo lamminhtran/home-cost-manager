@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý chi phí xây nhà cấp 4</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-home"></i>
+                <h1>Quản lý chi phí xây nhà</h1>
+            </div>
+            <div class="budget-info">
+                <div class="budget-card">
+                    <span class="budget-label">Tổng ngân sách</span>
+                    <span class="budget-amount total-budget">700,000,000 ₫</span>
+                </div>
+                <div class="budget-card">
+                    <span class="budget-label">Đã chi tiêu</span>
+                    <span class="budget-amount spent-amount">0 ₫</span>
+                </div>
+                <div class="budget-card">
+                    <span class="budget-label">Còn lại</span>
+                    <span class="budget-amount remaining-amount">700,000,000 ₫</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel - Categories -->
+            <div class="left-panel">
+                <div class="categories">
+                    <h2><i class="fas fa-layer-group"></i> Hạng mục chi phí</h2>
+                    <div class="category-list">
+                        <div class="category-item" data-category="construction">
+                            <div class="category-icon">
+                                <i class="fas fa-hammer"></i>
+                            </div>
+                            <div class="category-details">
+                                <h3>Phần thô & thầu</h3>
+                                <div class="category-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="category-amount">0/300tr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category-item" data-category="interior">
+                            <div class="category-icon">
+                                <i class="fas fa-couch"></i>
+                            </div>
+                            <div class="category-details">
+                                <h3>Nội thất</h3>
+                                <div class="category-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="category-amount">0/200tr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category-item" data-category="garden">
+                            <div class="category-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <div class="category-details">
+                                <h3>Sân vườn</h3>
+                                <div class="category-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="category-amount">0/100tr</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="category-item" data-category="other">
+                            <div class="category-icon">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="category-details">
+                                <h3>Phát sinh</h3>
+                                <div class="category-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span class="category-amount">0/100tr</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Expense Button -->
+                    <button class="btn-add-expense" onclick="openAddExpenseModal()">
+                        <i class="fas fa-plus"></i> Thêm chi phí mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Panel - Expense List -->
+            <div class="right-panel">
+                <div class="expense-list">
+                    <div class="expense-header">
+                        <h2><i class="fas fa-receipt"></i> Danh sách chi phí</h2>
+                        <div class="filter-controls">
+                            <select id="category-filter" class="filter-select">
+                                <option value="all">Tất cả hạng mục</option>
+                                <option value="construction">Phần thô</option>
+                                <option value="interior">Nội thất</option>
+                                <option value="garden">Sân vườn</option>
+                                <option value="other">Phát sinh</option>
+                            </select>
+                            <input type="month" id="month-filter" class="filter-select">
+                        </div>
+                    </div>
+                    
+                    <div class="expense-table-container">
+                        <table class="expense-table">
+                            <thead>
+                                <tr>
+                                    <th>Ngày</th>
+                                    <th>Hạng mục</th>
+                                    <th>Mô tả</th>
+                                    <th>Số tiền</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenses-table-body">
+                                <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+                                <tr class="empty-row">
+                                    <td colspan="5">Chưa có chi phí nào. Hãy thêm chi phí đầu tiên!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Summary -->
+                    <div class="summary-section">
+                        <div class="summary-card">
+                            <h3><i class="fas fa-chart-pie"></i> Tổng quan</h3>
+                            <div class="summary-details">
+                                <div class="summary-item">
+                                    <span>Tổng chi phí:</span>
+                                    <span class="summary-total">0 ₫</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Số giao dịch:</span>
+                                    <span class="summary-count">0</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Trung bình/giao dịch:</span>
+                                    <span class="summary-average">0 ₫</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal thêm chi phí -->
+    <div id="addExpenseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Thêm chi phí mới</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="expense-form">
+                    <div class="form-group">
+                        <label for="expense-category"><i class="fas fa-tag"></i> Hạng mục</label>
+                        <select id="expense-category" required>
+                            <option value="">Chọn hạng mục</option>
+                            <option value="construction">Phần thô & thầu</option>
+                            <option value="interior">Nội thất</option>
+                            <option value="garden">Sân vườn</option>
+                            <option value="other">Phát sinh</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expense-description"><i class="fas fa-file-alt"></i> Mô tả</label>
+                        <input type="text" id="expense-description" placeholder="VD: Tiền công thợ xây, mua xi măng..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expense-amount"><i class="fas fa-money-bill-wave"></i> Số tiền (VND)</label>
+                        <input type="number" id="expense-amount" placeholder="Nhập số tiền" min="1000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expense-date"><i class="fas fa-calendar"></i> Ngày chi</label>
+                        <input type="date" id="expense-date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expense-notes"><i class="fas fa-sticky-note"></i> Ghi chú (tùy chọn)</label>
+                        <textarea id="expense-notes" placeholder="Ghi chú thêm..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">Hủy</button>
+                        <button type="submit" class="btn-save">
+                            <i class="fas fa-save"></i> Lưu chi phí
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
